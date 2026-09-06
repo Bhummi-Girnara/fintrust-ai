@@ -82,7 +82,7 @@ function buildExplanation(features: Record<string, number>): string[] {
   if (features.has_suspicious_keyword)   reasons.push("URL contains sensitive keywords like login, verify, or kyc")
   if (features.num_at_symbols > 0)       reasons.push("URL contains @ symbol which can mask the real destination")
   return reasons
-} 
+}
 
 export async function analyzePhishingURL(url: string): Promise<PhishingPrediction> {
   const baseUrl   = process.env.ML_PHISHING_ANALYSIS_URL
