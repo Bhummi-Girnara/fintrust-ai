@@ -2,7 +2,7 @@
  * Module 6 — URL/QR Phishing Analysis
  * Tool: LogisticRegression via scikit-learn, served via FastAPI
  * Train: YES — trained on phishing URL datasets
- * Endpoint: POST /predict/phishing
+ * Endpoint: POST /analyze
  *
  * Features extracted from the URL before sending to the model:
  * - url_length
@@ -95,7 +95,7 @@ export async function analyzePhishingURL(url: string): Promise<PhishingPredictio
   }
 
   try {
-    const response = await fetch(`${baseUrl}/predict/phishing`, {
+    const response = await fetch(`${baseUrl}/analyze`, {
       method:  "POST",
       headers: {
         "Content-Type":  "application/json",

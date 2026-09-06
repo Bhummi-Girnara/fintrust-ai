@@ -2,7 +2,7 @@
  * Module 5 — Fraud Detection & Risk Assessment
  * Tool: RandomForestClassifier via scikit-learn, served via FastAPI
  * Train: YES — pre-trained model loaded at FastAPI startup
- * Endpoint: POST /predict/fraud
+ * Endpoint: POST /predict
  *
  * Features sent to the model:
  * - amount (float)
@@ -60,7 +60,7 @@ export async function predictFraud(features: FraudFeatures): Promise<FraudPredic
   try {
     const payload = extractFeatures(features)
 
-    const response = await fetch(`${baseUrl}/predict/fraud`, {
+    const response = await fetch(`${baseUrl}/predict`, {
       method:  "POST",
       headers: {
         "Content-Type":  "application/json",
