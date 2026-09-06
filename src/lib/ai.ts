@@ -14,7 +14,7 @@ import { sanitizeForAI } from "@/lib/pii"
 function getModel() {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new Error("GEMINI_API_KEY is not set")
-  return new GoogleGenerativeAI(key).getGenerativeModel({ model: "gemini-2.0-flash" })
+  return new GoogleGenerativeAI(key).getGenerativeModel({ model: "gemini-2.5-flash" })
 }
 
 function parseJSON<T>(text: string): T {
@@ -28,15 +28,18 @@ function parseJSON<T>(text: string): T {
 // ─────────────────────────────────────────────────────────
 
 export interface ClassificationResult {
-  disputeType:       "FAILED_TXN" | "UNAUTHORIZED_PAYMENT" | "REFUND_DELAY" | "MERCHANT_SCAM" | "PHISHING"
-  severity:          "LOW" | "MEDIUM" | "HIGH"
-  summary:           string
+  disputeType: "FAILED_TXN" | "UNAUTHORIZED_PAYMENT" | "REFUND_DELAY" | "MERCHANT_SCAM" | "PHISHING"
+  severity: "LOW" | "MEDIUM" | "HIGH"
+  summary: string
   routingSuggestion: "BANK" | "NPCI" | "RBI_OMBUDSMAN" | "CYBERCRIME" | "CONSUMER_FORUM"
-  keyPoints:         string[]   // Module 4 output bundled in same call
-  confidence:        number     // 0.0 – 1.0
+  keyPoints: string[] // Module 4 output bundled in same call
+  confidence: number // 0.0 – 1.0
 }
 
-export async function classifyCase(description: string, amount?: number): Promise<ClassificationResult> {
+export async function classifyCase(
+  description: string,
+  amount?: number
+): Promise<ClassificationResult> {
   // Module 1: Strip PII before sending to Gemini
   const sanitized = sanitizeForAI(description)
 
@@ -74,30 +77,29 @@ Routing guide:
   return parseJSON<ClassificationResult>(result.response.text())
 }
 
-
 // ─────────────────────────────────────────────────────────
 // MODULE 3 — Severity Detection (standalone, with full context)
 // ─────────────────────────────────────────────────────────
 
 export interface SeverityResult {
-  severity:    "LOW" | "MEDIUM" | "HIGH"
-  reason:      string
-  urgencyScore: number  // 1-10
+  severity: "LOW" | "MEDIUM" | "HIGH"
+  reason: string
+  urgencyScore: number // 1-10
 }
 
 export async function detectSeverity(
   description: string,
-  amount?:     number,
+  amount?: number,
   disputeType?: string
 ): Promise<SeverityResult> {
   const sanitized = sanitizeForAI(description)
-  const model     = getModel()
+  const model = getModel()
 
   const prompt = `You are a financial dispute severity classifier for India's digital payment ecosystem.
 Respond ONLY with valid JSON.
 
 Complaint: "${sanitized}"
-${amount     ? `Amount: ₹${amount}`     : ""}
+${amount ? `Amount: ₹${amount}` : ""}
 ${disputeType ? `Type: ${disputeType}` : ""}
 
 Return exactly:
@@ -115,21 +117,20 @@ LOW: failed transactions < ₹5000, minor refund delays`
   return parseJSON<SeverityResult>(result.response.text())
 }
 
-
 // ─────────────────────────────────────────────────────────
 // MODULE 4 — Key-Point Summarization
 // ─────────────────────────────────────────────────────────
 
 export interface SummaryResult {
-  summary:      string
-  keyPoints:    string[]
-  timeline:     string[]    // chronological events extracted from the complaint
-  actionable:   string[]    // what the user should do next
+  summary: string
+  keyPoints: string[]
+  timeline: string[] // chronological events extracted from the complaint
+  actionable: string[] // what the user should do next
 }
 
 export async function summarizeCase(description: string): Promise<SummaryResult> {
   const sanitized = sanitizeForAI(description)
-  const model     = getModel()
+  const model = getModel()
 
   const prompt = `You are a financial dispute analyst. Analyze this payment complaint and extract structured information.
 Respond ONLY with valid JSON.
@@ -148,17 +149,16 @@ Return exactly:
   return parseJSON<SummaryResult>(result.response.text())
 }
 
-
 // ─────────────────────────────────────────────────────────
 // Juror bilateral summary (existing, with PII masking added)
 // ─────────────────────────────────────────────────────────
 
 export async function generateJurorSummary(
-  description:   string,
+  description: string,
   officerNotes?: string
 ): Promise<string> {
   const sanitized = sanitizeForAI(description)
-  const model     = getModel()
+  const model = getModel()
 
   const prompt = `Summarize the following payment dispute for an independent reviewer. Present both sides objectively. Under 200 words. Plain text only.
 
@@ -169,21 +169,20 @@ ${officerNotes ? `Authority's response: "${sanitizeForAI(officerNotes)}"` : "No 
   return result.response.text().trim()
 }
 
-
 // ─────────────────────────────────────────────────────────
 // Complaint draft generation (existing, with PII masking)
 // ─────────────────────────────────────────────────────────
 
 export async function generateComplaintDraft(data: {
-  disputeType:   string
-  amount?:       number
+  disputeType: string
+  amount?: number
   transactionId?: string
-  upiId?:        string
-  description:   string
-  authority:     string
+  upiId?: string
+  description: string
+  authority: string
 }): Promise<string> {
   const sanitized = sanitizeForAI(data.description)
-  const model     = getModel()
+  const model = getModel()
 
   const prompt = `Write a formal complaint letter for a digital payment dispute in India.
 Authority: ${data.authority}
