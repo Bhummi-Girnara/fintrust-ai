@@ -1,10 +1,13 @@
 "use client"
 
+"use client"
+
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Suspense } from "react"
 import {
   ShieldCheck,
   FileText,
@@ -18,81 +21,81 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function DashboardNav() {
+function DashboardNavContent() {
   const { user, logout } = useAuth()
   const pathname = usePathname()
-  const searchParamsResult = useSearchParams()
-  const searchParams = searchParamsResult?.[0] ?? new URLSearchParams()
-  const setSearchParams = searchParamsResult?.[1] ?? (() => {})
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   const userLinks = [
-    { href: "/user/my-cases",     label: "My Cases",    icon: FolderOpen },
-    { href: "/user/new-complaint",label: "File Dispute", icon: FileText },
-    { href: "/user/settings",     label: "Settings",    icon: Settings },
+    { href: "/user/my-cases", label: "My Cases", icon: FolderOpen },
+    { href: "/user/new-complaint", label: "File Dispute", icon: FileText },
+    { href: "/user/settings", label: "Settings", icon: Settings },
   ]
 
-  const officerLinks = [
-    { href: "/officer", label: "Assigned Cases", icon: LayoutDashboard },
-  ]
+  const officerLinks = [{ href: "/officer", label: "Assigned Cases", icon: LayoutDashboard }]
 
-  const jurorLinks = [
-    { href: "/juror", label: "Review Queue", icon: Gavel },
-  ]
+  const jurorLinks = [{ href: "/juror", label: "Review Queue", icon: Gavel }]
 
   const adminLinks = [
-    { href: "/admin",       label: "Admin",  icon: LayoutDashboard },
-    { href: "/admin/users", label: "Users",  icon: Users },
+    { href: "/admin", label: "Admin", icon: LayoutDashboard },
+    { href: "/admin/users", label: "Users", icon: Users },
   ]
 
-  const auditorLinks = [
-    { href: "/auditor", label: "Audit Log", icon: Clipboard },
-  ]
+  const auditorLinks = [{ href: "/auditor", label: "Audit Log", icon: Clipboard }]
 
-  const isOfficer = ["OFFICER_BANK","OFFICER_NPCI","OMBUDSMAN","CYBERCRIME"].includes(user?.role ?? "")
+  const isOfficer = ["OFFICER_BANK", "OFFICER_NPCI", "OMBUDSMAN", "CYBERCRIME"].includes(
+    user?.role ?? ""
+  )
   const isAuditor = user?.role === "AUDITOR"
 
   const links =
-    user?.role === "ADMIN"   ? [...userLinks, ...adminLinks] :
-    user?.role === "JUROR"   ? jurorLinks :
-    isOfficer                ? officerLinks :
-    isAuditor                ? auditorLinks :
-    userLinks
+    user?.role === "ADMIN"
+      ? [...userLinks, ...adminLinks]
+      : user?.role === "JUROR"
+        ? jurorLinks
+        : isOfficer
+          ? officerLinks
+          : isAuditor
+            ? auditorLinks
+            : userLinks
 
   return (
-    <header className="bg-gradient-to-r from-blue-50 to-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-6 flex-1">
+    <header className="sticky top-0 z-10 border-b border-gray-200 bg-linear-to-r from-blue-50 to-white shadow-sm">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+        <div className="flex flex-1 items-center gap-6">
           <Link href="/" className="flex items-center gap-2 font-semibold text-gray-900">
             <ShieldCheck className="h-5 w-5 text-blue-600" />
             Fintrust-AI
           </Link>
-          <div className="flex-1 mx-4">
+          <div className="mx-4 flex-1">
             <Input
-            placeholder="Search cases..."
-            value={searchParams.get("search") ?? ""}
-            onChange={e => {
-              const value = e.target.value
-              const params = new URLSearchParams(searchParams)
-              if (value) {
-                params.set("search", value)
-              } else {
-                params.delete("search")
-              }
-              setSearchParams(params)
-            }}
-            className="w-full max-w-xs"
-          />
+              placeholder="Search cases..."
+              value={searchParams.get("search") ?? ""}
+              onChange={(e) => {
+                const value = e.target.value
+                const params = new URLSearchParams(searchParams)
+                if (value) {
+                  params.set("search", value)
+                } else {
+                  params.delete("search")
+                }
+                const queryString = params.toString()
+                router.push(queryString ? `${pathname}?${queryString}` : pathname)
+              }}
+              className="w-full max-w-xs"
+            />
           </div>
-          <nav className="hidden sm:flex items-center gap-1">
+          <nav className="hidden items-center gap-1 sm:flex">
             {links.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                  "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                   pathname.startsWith(href)
                     ? "bg-primary-50 text-primary-700"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 )}
               >
                 <Icon className="h-3.5 w-3.5" />
@@ -102,10 +105,10 @@ export function DashboardNav() {
             <Link
               href="/public-dashboard"
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                 pathname === "/public-dashboard"
                   ? "bg-primary-50 text-primary-700"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               )}
             >
               <LayoutDashboard className="h-3.5 w-3.5" />
@@ -114,12 +117,31 @@ export function DashboardNav() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-gray-500 hidden sm:block">{user?.email}</span>
+          <span className="hidden text-xs text-gray-500 sm:block">{user?.email}</span>
           <Button variant="ghost" size="sm" onClick={logout} className="text-gray-600">
             <LogOut className="h-4 w-4" />
           </Button>
         </div>
       </div>
     </header>
+  )
+}
+
+export function DashboardNav() {
+  return (
+    <Suspense
+      fallback={
+        <header className="sticky top-0 z-10 border-b border-gray-200 bg-linear-to-r from-blue-50 to-white shadow-sm">
+          <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+            <div className="flex items-center gap-2 font-semibold text-gray-900">
+              <ShieldCheck className="h-5 w-5 text-blue-600" />
+              Fintrust-AI
+            </div>
+          </div>
+        </header>
+      }
+    >
+      <DashboardNavContent />
+    </Suspense>
   )
 }

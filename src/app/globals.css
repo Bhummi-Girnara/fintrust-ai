@@ -81,6 +81,9 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --gradient-start: #e0f2ff;
+  --gradient-middle: #90c4ff;
+  --gradient-end: #e0f2ff;
 }
 
 .dark {
@@ -115,6 +118,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --gradient-start: #0f172a;
+  --gradient-middle: #334155;
+  --gradient-end: #0f172a;
 }
 
 @layer base {
@@ -126,5 +132,29 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* Animated gradient for dashboard background */
+.bg-gradient-animate {
+  background-image: linear-gradient(
+    45deg,
+    var(--gradient-start),
+    var(--gradient-middle),
+    var(--gradient-end)
+  );
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

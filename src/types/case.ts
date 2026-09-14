@@ -7,7 +7,7 @@ export const createCaseSchema = z.object({
   bankName: z.string().optional(),
   appUsed: z.string().optional(),
   description: z.string().min(20, "Please describe the issue in at least 20 characters"),
-  evidenceUrls: z.array(z.string().url()).optional().default([]),
+  evidenceUrls: z.array(z.string().url()),
   fraudLink: z.string().url().optional().or(z.literal("")),
 })
 

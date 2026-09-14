@@ -25,7 +25,7 @@ export default function NewComplaintPage() {
   const [serverError, setServerError] = useState<string | null>(null)
   const [success, setSuccess] = useState<{ caseId: string; assignedTo: string } | null>(null)
 
-  const defaultValues: Partial<CreateCaseInput> = {
+  const defaultValues: CreateCaseInput = {
     transactionId: "",
     upiId: "",
     bankName: "",

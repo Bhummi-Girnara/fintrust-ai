@@ -7,7 +7,7 @@ interface LogParams {
   userId?: string
   event: AuthEvent
   request: Request
-  metadata?: Prisma.JsonObject
+  metadata?: Prisma.JsonObject | null
 }
 
 export async function logAuthEvent({ userId, event, request, metadata }: LogParams) {
@@ -17,7 +17,7 @@ export async function logAuthEvent({ userId, event, request, metadata }: LogPara
       event,
       ipAddress: getClientIp(request),
       userAgent: request.headers.get("user-agent"),
-      metadata: metadata ?? null,
+      metadata: metadata ?? Prisma.JsonNull,
     },
   })
 }

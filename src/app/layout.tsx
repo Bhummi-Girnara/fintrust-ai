@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="min-h-screen bg-gradient-to-r from-primary-50 to-white dark:from-primary-900/5 dark:to-background">
+          <div className="min-h-screen bg-gradient-animate">
             {children}
             <Footer />
             <FeedbackButton />

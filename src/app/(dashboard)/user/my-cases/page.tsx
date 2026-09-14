@@ -45,8 +45,7 @@ export default function MyCasesPage() {
   const [cases, setCases] = useState<Case[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const searchParamsResult = useSearchParams()
-  const searchParams = searchParamsResult?.[0] ?? new URLSearchParams()
+  const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? ""
 
   useEffect(() => {
