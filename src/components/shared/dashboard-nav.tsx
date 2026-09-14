@@ -14,6 +14,7 @@ import {
   Users,
   Gavel,
   Settings,
+  Clipboard,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -43,12 +44,18 @@ export function DashboardNav() {
     { href: "/admin/users", label: "Users",  icon: Users },
   ]
 
+  const auditorLinks = [
+    { href: "/auditor", label: "Audit Log", icon: Clipboard },
+  ]
+
   const isOfficer = ["OFFICER_BANK","OFFICER_NPCI","OMBUDSMAN","CYBERCRIME"].includes(user?.role ?? "")
+  const isAuditor = user?.role === "AUDITOR"
 
   const links =
     user?.role === "ADMIN"   ? [...userLinks, ...adminLinks] :
     user?.role === "JUROR"   ? jurorLinks :
     isOfficer                ? officerLinks :
+    isAuditor                ? auditorLinks :
     userLinks
 
   return (
