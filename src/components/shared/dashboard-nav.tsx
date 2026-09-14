@@ -20,7 +20,9 @@ import { cn } from "@/lib/utils"
 export function DashboardNav() {
   const { user, logout } = useAuth()
   const pathname = usePathname()
-  const [searchParams] = useSearchParams()
+  const result = useSearchParams()
+  const searchParams = result?.[0] ?? new URLSearchParams()
+  const setSearchParams = result?.[1] ?? (() => {})
 
   const userLinks = [
     { href: "/user/my-cases",     label: "My Cases",    icon: FolderOpen },
@@ -63,12 +65,13 @@ export function DashboardNav() {
             value={searchParams.get("search") ?? ""}
             onChange={e => {
               const value = e.target.value
+              const params = new URLSearchParams(searchParams)
               if (value) {
-                searchParams.set("search", value)
+                params.set("search", value)
               } else {
-                searchParams.delete("search")
+                params.delete("search")
               }
-              // Need setter from useSearchParams; we didn't capture it.
+              setSearchParams(params)
             }}
             className="w-full max-w-xs"
           />
