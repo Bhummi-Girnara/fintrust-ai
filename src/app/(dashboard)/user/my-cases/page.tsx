@@ -44,6 +44,7 @@ export default function MyCasesPage() {
   const [cases, setCases] = useState<Case[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     authFetch("/api/cases")
@@ -87,7 +88,12 @@ export default function MyCasesPage() {
       )}
 
       {!loading && !error && cases.length === 0 && (
-        <div className="text-center py-16 space-y-3">
+        <div className="text-center py-16 space-y-4">
+          <svg className="mx-auto h-12 w-12 text-muted mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4"/>
+            <path d="M12 16h.01"/>
+          </svg>
           <p className="text-gray-400 text-sm">No cases filed yet.</p>
           <Button asChild variant="outline">
             <Link href="/user/new-complaint">File your first dispute</Link>

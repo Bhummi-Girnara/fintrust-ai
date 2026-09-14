@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,6 @@ import { cn } from "@/lib/utils"
 export function DashboardNav() {
   const { user, logout } = useAuth()
   const pathname = usePathname()
-  const [searchParams] = useSearchParams()
 
   const userLinks = [
     { href: "/user/my-cases",     label: "My Cases",    icon: FolderOpen },
@@ -58,20 +57,7 @@ export function DashboardNav() {
             Fintrust-AI
           </Link>
           <div className="flex-1 mx-4">
-            <Input
-            placeholder="Search cases..."
-            value={searchParams.get("search") ?? ""}
-            onChange={e => {
-              const value = e.target.value
-              if (value) {
-                searchParams.set("search", value)
-              } else {
-                searchParams.delete("search")
-              }
-              // Need setter from useSearchParams; we didn't capture it.
-            }}
-            className="w-full max-w-xs"
-          />
+            <Input placeholder="Search cases..." className="w-full max-w-xs" />
           </div>
           <nav className="hidden sm:flex items-center gap-1">
             {links.map(({ href, label, icon: Icon }) => (
