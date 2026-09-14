@@ -3,10 +3,23 @@
 import { useState } from "react"
 import { useAuth } from "@/context/auth-context"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select"
 import { toast } from "sonner"
 import { CheckCircle, Loader2, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -69,7 +82,7 @@ export function FeedbackButton() {
       {/* Floating button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed right-4 bottom-4 z-50 p-3 bg-primary-600 text-white rounded-full shadow-lg hover:bg-primary-700 transition-colors flex items-center justify-center"
+        className="bg-primary-600 hover:bg-primary-700 fixed right-4 bottom-4 z-50 flex items-center justify-center rounded-full p-3 text-black shadow-lg transition-colors"
         aria-label="Open feedback form"
       >
         <MessageSquare className="h-5 w-5" />
@@ -80,13 +93,13 @@ export function FeedbackButton() {
         <DialogContent className="w-full max-w-md sm:max-w-lg">
           <DialogHeader className="pb-4">
             <DialogTitle className="text-lg font-semibold">We’d love your feedback</DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-sm">
               Help us improve Fintrust‑AI by sharing your thoughts.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Rating</label>
+              <label className="text-foreground text-sm font-medium">Rating</label>
               <div className="flex flex-row">
                 {[1, 2, 3, 4, 5].map((r) => (
                   <button
@@ -94,7 +107,7 @@ export function FeedbackButton() {
                     type="button"
                     onClick={() => setForm((f) => ({ ...f, rating: r }))}
                     className={cn(
-                      "flex-1 h-10 px-2 py-1 border border-gray-300 rounded-md",
+                      "h-10 flex-1 rounded-md border border-gray-300 px-2 py-1",
                       form.rating >= r
                         ? "bg-primary-600 text-white"
                         : "bg-background hover:bg-muted"
@@ -102,7 +115,7 @@ export function FeedbackButton() {
                     aria-label={`Rate ${r} stars`}
                   >
                     {[...Array(r)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-400" />
+                      <Star key={i} className="h-2 w-4 text-yellow-400 sm:flex-1" />
                     ))}
                   </button>
                 ))}
@@ -110,7 +123,7 @@ export function FeedbackButton() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Category</label>
+              <label className="text-foreground text-sm font-medium">Category</label>
               <Select>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a category">{form.category}</SelectValue>
@@ -126,7 +139,7 @@ export function FeedbackButton() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Comment (optional)</label>
+              <label className="text-foreground text-sm font-medium">Comment (optional)</label>
               <Textarea
                 value={form.comment}
                 onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))}
@@ -138,18 +151,10 @@ export function FeedbackButton() {
           </form>
 
           <DialogFooter className="flex justify-end pt-4">
-            <Button
-              variant="outline"
-              onClick={() => setOpen(false)}
-              disabled={loading}
-            >
+            <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={loading || !user}
-              className="ml-2"
-            >
+            <Button type="submit" disabled={loading || !user} className="ml-2">
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
