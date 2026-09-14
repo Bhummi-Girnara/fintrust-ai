@@ -25,18 +25,20 @@ export default function NewComplaintPage() {
   const [serverError, setServerError] = useState<string | null>(null)
   const [success, setSuccess] = useState<{ caseId: string; assignedTo: string } | null>(null)
 
+  const defaultValues: Partial<CreateCaseInput> = {
+    transactionId: "",
+    upiId: "",
+    bankName: "",
+    appUsed: "",
+    description: "",
+    fraudLink: "",
+    evidenceUrls: [],
+  };
+
   const form = useForm<CreateCaseInput>({
     resolver: zodResolver(createCaseSchema),
-    defaultValues: {
-      transactionId: "",
-      upiId: "",
-      bankName: "",
-      appUsed: "",
-      description: "",
-      fraudLink: "",
-      evidenceUrls: [],
-    },
-  })
+    defaultValues,
+  });
 
   const next = async () => {
     // Validate description on step 0 before moving forward

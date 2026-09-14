@@ -4,6 +4,7 @@ import "./globals.css"
 import { AuthProvider } from "@/context/auth-context"
 import { Toaster } from "@/components/ui/sonner"
 import Footer from "@/components/layout/Footer"
+import { FeedbackButton } from "@/components/layout/FeedbackButton"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="min-h-screen bg-gradient-to-r from-primary-50 to-white dark:from-primary-900/5 dark:to-background">
             {children}
             <Footer />
+            <FeedbackButton />
           </div>
           <Toaster />
         </AuthProvider>

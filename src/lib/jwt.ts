@@ -18,6 +18,7 @@ function getPublicKey() {
 }
 
 export interface AccessTokenPayload {
+  [key: string]: unknown
   userId: string
   role: string
   sessionId: string

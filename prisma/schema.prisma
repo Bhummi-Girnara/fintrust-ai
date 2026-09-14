@@ -104,6 +104,7 @@ model User {
   authLogs           AuthAuditLog[]
   cases              Case[]
   jurorReviews       JurorReview[]
+  feedbacks          Feedback[]
 }
 
 model Session {
@@ -157,6 +158,22 @@ model AuthAuditLog {
 
   @@index([userId])
   @@index([event])
+}
+
+// ─── Feedback model ───────────────────────────────────────
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  rating    Int      @default(5) // 1-5
+  comment   String?  @db.Text
+  category  String   @default("GENERAL") // e.g., UI, FEATURE_REQUEST, BUG, GENERAL
+  status    String   @default("NEW") // NEW, REVIEWED, RESOLVED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 // ─── Case models ──────────────────────────────────────────

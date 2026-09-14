@@ -21,9 +21,9 @@ import { cn } from "@/lib/utils"
 export function DashboardNav() {
   const { user, logout } = useAuth()
   const pathname = usePathname()
-  const result = useSearchParams()
-  const searchParams = result?.[0] ?? new URLSearchParams()
-  const setSearchParams = result?.[1] ?? (() => {})
+  const searchParamsResult = useSearchParams()
+  const searchParams = searchParamsResult?.[0] ?? new URLSearchParams()
+  const setSearchParams = searchParamsResult?.[1] ?? (() => {})
 
   const userLinks = [
     { href: "/user/my-cases",     label: "My Cases",    icon: FolderOpen },

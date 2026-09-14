@@ -58,7 +58,7 @@ export function StepDetails({ form }: Props) {
 
       <div className="space-y-1.5">
         <Label>App used for payment</Label>
-        <Select onValueChange={(val) => setValue("appUsed", val)}>
+        <Select onValueChange={(val) => setValue("appUsed", val as string)}>
           <SelectTrigger>
             <SelectValue placeholder="Select app" />
           </SelectTrigger>
