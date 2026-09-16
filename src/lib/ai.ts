@@ -14,7 +14,7 @@ import { sanitizeForAI } from "@/lib/pii"
 function getModel() {
   const key = process.env.GEMINI_API_KEY
   if (!key) throw new Error("GEMINI_API_KEY is not set")
-  return new GoogleGenerativeAI(key).getGenerativeModel({ model: "gemini-2.5-flash" })
+  return new GoogleGenerativeAI(key).getGenerativeModel({ model: "gemini-3.6-flash" })
 }
 
 function parseJSON<T>(text: string): T {
