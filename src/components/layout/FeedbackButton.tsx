@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { toast } from "sonner"
-import { CheckCircle, Loader2, MessageSquare } from "lucide-react"
+import { CheckCircle, ClipboardPenLine, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface FeedbackFormValues {
@@ -85,7 +85,7 @@ export function FeedbackButton() {
         className="bg-primary-600 hover:bg-primary-700 fixed right-4 bottom-4 z-50 flex items-center justify-center rounded-full p-3 text-black shadow-lg transition-colors"
         aria-label="Open feedback form"
       >
-        <MessageSquare className="h-5 w-5" />
+        <ClipboardPenLine className="h-5 w-5" />
       </button>
 
       {/* Dialog */}
@@ -100,23 +100,21 @@ export function FeedbackButton() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="text-foreground text-sm font-medium">Rating</label>
-              <div className="flex flex-row">
+              <div className="flex items-center gap-1" role="radiogroup" aria-label="Rating">
                 {[1, 2, 3, 4, 5].map((r) => (
                   <button
                     key={r}
                     type="button"
                     onClick={() => setForm((f) => ({ ...f, rating: r }))}
+                    role="radio"
+                    aria-checked={form.rating === r}
                     className={cn(
-                      "h-10 flex-1 rounded-md border border-gray-300 px-2 py-1",
-                      form.rating >= r
-                        ? "bg-primary-600 text-white"
-                        : "bg-background hover:bg-muted"
+                      "rounded-md p-2 transition-colors",
+                      "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     )}
                     aria-label={`Rate ${r} stars`}
                   >
-                    {[...Array(r)].map((_, i) => (
-                      <Star key={i} className="h-2 w-4 text-yellow-400 sm:flex-1" />
-                    ))}
+                    <Star filled={form.rating >= r} />
                   </button>
                 ))}
               </div>
@@ -175,10 +173,10 @@ export function FeedbackButton() {
 }
 
 // Helper component for star rating
-function Star({ className }: { className?: string }) {
+function Star({ filled }: { filled: boolean }) {
   return (
     <svg
-      className={cn("h-4 w-4 text-yellow-400", className)}
+      className={cn("h-6 w-6", filled ? "fill-yellow-400 text-yellow-400" : "text-gray-300")}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

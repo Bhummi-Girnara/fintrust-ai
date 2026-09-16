@@ -39,7 +39,7 @@ export default function PublicDashboardPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-animate">
       {/* Header */}
       <header className="bg-white border-b px-4 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
