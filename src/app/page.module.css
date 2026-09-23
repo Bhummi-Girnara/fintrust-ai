@@ -1,0 +1,626 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap");
+
+.page {
+  --bg: #f9fbfe;
+  --ink: #0f1b33;
+  --muted: #52627d;
+  --line: #d5deec;
+  --accent: #2f5fe8;
+  --alert: #d92d20;
+  --tint: #e0eafb;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.page a:focus-visible,
+.page summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav a:hover {
+    color: var(--ink);
+  }
+}
+
+.barEnd {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.login {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.15rem;
+  border-radius: 0.775rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 150ms ease,
+    transform 120ms var(--ease-out);
+}
+
+.login:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .login:hover {
+    background: var(--accent);
+  }
+}
+
+/* Hero: headline and intro side by side, the route runs edge to edge, actions hang below it as stops */
+.hero {
+  --line: rgba(15, 27, 51, 0.18);
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 0 4.5rem;
+  background: var(--tint);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15, 27, 51, 0.2) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 60% 45% at 50% 52%, #000, transparent 100%);
+  pointer-events: none;
+}
+
+.hero .wrap {
+  position: relative;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 2rem 4rem;
+  align-items: end;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.75rem, 7.2vw, 5.25rem);
+  font-weight: 750;
+  font-stretch: 118%;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.lead {
+  margin: 0;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 750;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.title,
+.lead,
+.vizWide,
+.vizNarrow,
+.acts {
+  animation: rise 500ms var(--ease-out) both;
+}
+.lead {
+  animation-delay: 60ms;
+}
+.vizWide,
+.vizNarrow {
+  animation-delay: 120ms;
+}
+.acts {
+  animation-delay: 180ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.vizWide {
+  margin: 3rem 0 2rem;
+}
+.vizNarrow {
+  display: none;
+}
+
+/* Actions as three stops */
+.actions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.actions li {
+  border-left: 1px solid var(--line);
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  height: 100%;
+  padding: 0.25rem 1rem 1rem 1.25rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.actionTitle {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.actionNote {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.arrow {
+  width: 1.75rem;
+  height: 0.75rem;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.arrowLine,
+.arrowHead {
+  transition: transform 220ms var(--ease-out);
+}
+
+.arrowLine {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+
+.action:active {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Arrows retract at rest and extend on hover (hover devices only) */
+@media (hover: hover) and (pointer: fine) {
+  .arrowLine {
+    transform: scaleX(0.5);
+  }
+  .arrowHead {
+    transform: translateX(-13px);
+  }
+  .action:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .action:hover .actionTitle {
+    color: var(--accent);
+  }
+  .action:hover .arrowLine {
+    transform: scaleX(1);
+  }
+  .action:hover .arrowHead {
+    transform: translateX(0);
+  }
+}
+
+.urgent {
+  max-width: 40rem;
+  margin: 2rem 0 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--alert);
+  line-height: 1.5;
+}
+
+/* Payment route animation: out, trouble, and back */
+.route,
+.routeWide {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: inherit;
+}
+
+.route {
+  max-width: 22rem;
+  margin: 0 auto;
+}
+
+.trail {
+  animation: fade 9s linear infinite;
+}
+
+.route path,
+.routeWide path {
+  fill: none;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: butt;
+}
+
+.out,
+.back {
+  stroke-dasharray: 1 2;
+}
+.out {
+  stroke: var(--ink);
+  animation: drawOut 9s var(--ease-out) infinite;
+}
+.back {
+  stroke: var(--accent);
+  animation: drawBack 9s var(--ease-out) infinite;
+}
+.head1 {
+  stroke: var(--ink);
+  animation: head1 9s linear infinite;
+}
+.head2 {
+  stroke: var(--accent);
+  animation: head2 9s linear infinite;
+}
+
+.nodeYou {
+  fill: var(--ink);
+}
+.nodeBad {
+  fill: var(--alert);
+}
+.ring {
+  fill: none;
+  stroke: var(--alert);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring 9s ease-out infinite;
+}
+.nodeText {
+  fill: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+.routeLabel {
+  fill: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+@keyframes drawOut {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  25%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes drawBack {
+  0%,
+  40% {
+    stroke-dashoffset: 1;
+  }
+  66%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes head1 {
+  0%,
+  23% {
+    opacity: 0;
+  }
+  26%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes head2 {
+  0%,
+  64% {
+    opacity: 0;
+  }
+  67%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes ring {
+  0%,
+  25% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  27% {
+    opacity: 0.6;
+  }
+  42%,
+  100% {
+    opacity: 0;
+    transform: scale(2.3);
+  }
+}
+@keyframes fade {
+  0%,
+  90% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Sections */
+.section {
+  padding: 5rem 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 3.75rem;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.band {
+  --bg: #edf2fc;
+  --line: rgba(15, 27, 51, 0.14);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 1.5rem 3rem;
+}
+
+.heading {
+  position: sticky;
+  top: 5.5rem;
+  align-self: start;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.prose {
+  max-width: 38rem;
+  color: var(--muted);
+}
+
+.prose p {
+  margin: 0 0 1.25rem;
+}
+
+.prose .big {
+  color: var(--ink);
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+/* Safety tips */
+.tips {
+  margin: 0;
+}
+
+.tips div {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: 0.5rem 2rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tips div:first-child {
+  padding-top: 0;
+}
+
+.tips dt {
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+.tips dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* FAQ */
+.faq details {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq details:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.15rem 0;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.4rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 200ms var(--ease-out);
+}
+
+.faq details[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.faq p {
+  margin: 0;
+  max-width: 38rem;
+  padding: 0 2.5rem 1.25rem 0;
+  color: var(--muted);
+}
+
+/* Footer */
+.footer {
+  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 56rem) {
+  .hero {
+    padding: 3rem 0 3rem;
+  }
+  .head,
+  .split,
+  .tips div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vizWide {
+    display: none;
+  }
+  .vizNarrow {
+    display: block;
+    margin: 2rem 0;
+  }
+  .actions {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .actions li {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .actions li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .action {
+    padding: 1.15rem 0.25rem;
+  }
+  .heading {
+    position: static;
+  }
+  .nav {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .nav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title,
+  .lead,
+  .vizWide,
+  .vizNarrow,
+  .acts,
+  .trail,
+  .out,
+  .back,
+  .head1,
+  .head2,
+  .ring {
+    animation: none;
+  }
+  .out,
+  .back {
+    stroke-dashoffset: 0;
+  }
+  .ring {
+    opacity: 0;
+  }
+  .action,
+  .arrowLine,
+  .arrowHead,
+  .faq summary::after {
+    transition: none;
+  }
+}
