@@ -7,6 +7,7 @@ import { verifyAccessToken } from "@/lib/jwt"
 
 // Routes that don't require authentication
 const PUBLIC_PATHS = [
+  "/",
   "/login",
   "/register",
   "/verify-email",
